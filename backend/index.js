@@ -4,7 +4,7 @@ const bodyparser=require('body-parser');
 const cors=require('cors');
 require('dotenv').config();
 const UserRoutes=require('./routes/UserRoute');
-
+const LetterRoutes=require('./routes/LetterRoute');
 
 const app=express();
 app.use(bodyparser.json());
@@ -17,10 +17,11 @@ mongoose.connect(process.env.Mongo_url).then(()=>{
 })
 
 app.use('/',UserRoutes);
+app.use('/',LetterRoutes);
 
 
 const PORT=5000;
-app.listen(process.env.PORT||PORT,()=>{
+app.listen(PORT,()=>{
     console.log(`Port running on...${PORT}`);
 })
 
