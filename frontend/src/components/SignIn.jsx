@@ -1,34 +1,40 @@
 
 import React, { useState } from 'react';
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SignIn = () => {
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const login = async (e) => {
     e.preventDefault();
-      if (!Email || !Password) {
+      if (!email || !password) {
         return toast.error("Please fill up all the details!", {
           position: 'top-right',
         });
       }
       const emailReg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-      if (!emailReg.test(Email)) {
+      if (!emailReg.test(email)) {
         return toast.error('Please enter a valid email address.', {
           position: 'top-right',
         });
       }
 
-      if(Password.length!=6){
+      if(password.length!=6){
         return toast.error("Please enter 6 digit password", {
           position: 'top-right',
         });
       }
       try{
-        console.log("login attempted",Email,Password)
-        
+        console.log("login attempted",email,password)
+        const res = await axios.post('http://localhost:5000/login', {
+            email,
+            password,
+          });
+          console.log("loginres",res);
+          console.log("signup res",res);
         setEmail("");
         setPassword("");
         return toast.success("Login Success", {
@@ -37,7 +43,7 @@ const SignIn = () => {
       )
       }
       catch(e){
-        toast.error(e, {
+        toast.error(e.response.data.message, {
           position: 'top-right',
         });
         console.log(e);
@@ -61,7 +67,7 @@ const SignIn = () => {
             type="email"
             placeholder="Enter email"
             className="px-4 py-2 rounded-xl transition-transform transform hover:scale-105 focus:scale-105 focus:outline-none border border-gray-300"
-            value={Email}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
@@ -73,7 +79,7 @@ const SignIn = () => {
             type="password"
             placeholder="Enter 6 digit password"
             className="px-4 py-2 rounded-xl transition-transform transform hover:scale-105 focus:scale-105 focus:outline-none border border-gray-300"
-            value={Password}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
