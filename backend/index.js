@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'dearfuture2k24@gmail.com',
-    pass: 'twor aywo imxg vtfr',
+    pass: process.env.pass,
   },
 });
 async function sendMail(){
@@ -40,7 +40,7 @@ const mailOptions = {
 }).catch(e=>{
     console.log("Can't connect MongoDB...",e);
 })
-sendMail();
+// sendMail();
 
 
 
